@@ -14,20 +14,21 @@ import java.util.stream.Stream;
 /**
  * Created by home on 21.12.2016.
  */
-public class WordCounter {
+public class WordsCounter {
     private static final String TMP_FILE = "TEST_TEMP_FILE.TXT";
-    public static final Path TMP_FILE_PATH = Paths.get(TMP_FILE);
 
     public static void main(String... args) {
-        prepareFile();
-        processFile(Paths.get(TMP_FILE),5);
-        deleteFile();
+        Path file = prepareFile();
+        processFile(file,5);
+        deleteFile(file);
     }
 
-    private static void prepareFile() {
-        try(InputStream is = WordCounter.class.getClassLoader().getResourceAsStream("test.txt");)
+    private static Path prepareFile() {
+        try(InputStream is = WordsCounter.class.getClassLoader().getResourceAsStream("test.txt");)
         {
-            Files.copy(is, TMP_FILE_PATH, StandardCopyOption.REPLACE_EXISTING);
+            Path path = Paths.get(TMP_FILE);
+            Files.copy(is, path, StandardCopyOption.REPLACE_EXISTING);
+            return path;
         }
         catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -51,9 +52,9 @@ public class WordCounter {
         }
     }
 
-    private static void deleteFile() {
+    private static void deleteFile(Path file) {
         try {
-            Files.deleteIfExists(Paths.get(TMP_FILE));
+            Files.deleteIfExists(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
