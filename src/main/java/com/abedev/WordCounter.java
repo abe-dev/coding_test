@@ -48,7 +48,7 @@ public class WordCounter {
                     .limit(topN)
                     .forEach(pair -> System.out.println(String.format("%1$s - %2$d", pair.getKey(), pair.getValue())));
         } catch (IOException ex) {
-            throw new RuntimeException("Error reading file!!!");
+            throw new RuntimeException("Error reading file!!!",ex);
         }
     }
 
