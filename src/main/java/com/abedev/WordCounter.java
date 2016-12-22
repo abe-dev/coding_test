@@ -40,11 +40,10 @@ public class WordCounter {
                     .flatMap(s -> Stream.of(s.split(" ")))
                     .filter(s -> !s.isEmpty())
                     .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-            Map.Entry.comparingByValue().reversed();
             words
                     .entrySet()
                     .stream()
-                    .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
+                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                     .limit(topN)
                     .forEach(pair -> System.out.println(String.format("%1$s - %2$d", pair.getKey(), pair.getValue())));
         } catch (IOException ex) {
